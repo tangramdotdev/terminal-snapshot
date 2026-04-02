@@ -1,0 +1,15 @@
+[package]
+name = "terminal-snapshot"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+libc = "0.2"
+libghostty-sys = { path = "./libghostty-sys" }
+
+[workspace]
+members = ["libghostty-sys"]
+
+[workspace.dependencies]
+bindgen = "0.71"

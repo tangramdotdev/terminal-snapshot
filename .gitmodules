@@ -1,0 +1,3 @@
+[submodule "ghostty"]
+	path = ghostty
+	url = git@github.com:ghostty-org/ghostty.git
