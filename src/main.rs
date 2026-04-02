@@ -164,7 +164,7 @@ impl Pty {
         unsafe {
             let mut master = -1;
             let mut slave = -1;
-            let winsize = libc::winsize {
+            let mut winsize = libc::winsize {
                 ws_row: rows,
                 ws_col: cols,
                 ws_xpixel: 0,
@@ -175,7 +175,7 @@ impl Pty {
                 &raw mut slave,
                 std::ptr::null_mut(),
                 std::ptr::null_mut(),
-                &raw const winsize,
+                &raw mut winsize,
             );
             if ret < 0 {
                 return Err(std::io::Error::last_os_error());
