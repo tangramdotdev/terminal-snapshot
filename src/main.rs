@@ -69,7 +69,7 @@ fn main() {
             if libc::setsid() == -1 {
                 return Err(std::io::Error::last_os_error());
             }
-            if libc::ioctl(slave, libc::TIOCSCTTY, 0) == -1 {
+            if libc::ioctl(slave, libc::TIOCSCTTY.try_into().unwrap(), 0) == -1 {
                 return Err(std::io::Error::last_os_error());
             }
             libc::close(slave);

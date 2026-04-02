@@ -10,6 +10,7 @@ fn main() {
     let ghostty_out = crate_out.join("ghostty");
 
     let profile = env::var("PROFILE").unwrap();
+    let target = env::var("TARGET").unwrap();
     let mut cmd = Command::new("zig");
     cmd.arg("build")
         .arg("-Demit-lib-vt=true")
@@ -17,6 +18,16 @@ fn main() {
         .args(["-p", ghostty_out.to_str().unwrap()]);
     if profile == "release" {
         cmd.arg("-Doptimize=ReleaseFast");
+    }
+    let target = match target.as_str() {
+        "aarch64-unknown-linux-musl" => Some("aarch64-linux-musl"),
+        "aarch64-unknown-linux-gnu" => Some("aarch64-linux-gnu"),
+        "x86_64-unknown-linux-musl" => Some("x86_64-linux-musl"),
+        "x86_64-unknown-linux-gnu" => Some("x86_64-linux-gnu"),
+        _ => None,
+    };
+    if let Some(target) = target {
+        cmd.arg(format!("-Dtarget={target}"));
     }
     let output = cmd
         .stdin(std::process::Stdio::null())
